@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>ChilliSource.Cloud.Web</id>
+    <version>$version$</version>
+    <title>ChilliSource Cloud Web</title>
+    <description>Web Library for ChilliSource.Cloud framework</description>
+    <authors>$authors$</authors>
+    <owners>$owners$</owners>
+    <requireLicenseAcceptance>$requireLicenseAcceptance$</requireLicenseAcceptance>
+    <copyright>$copyright$</copyright>
+    <projectUrl>$projectUrl$</projectUrl>    
+    <licenseUrl>$licenceUrl$</licenseUrl>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <tags>$tags$</tags>
+	<dependencies>	    
+		<dependency id="ChilliSource.Cloud.Core" version="1.0.0" />	
+	</dependencies>
+  </metadata>
+  <files>    	
+	<file src="src/ChilliSource.Cloud.Web/bin/Release/net461/ChilliSource.Cloud.Web.dll" target="lib\net461" />
+	<file src="src/ChilliSource.Cloud.Web/bin/Release/net461/ChilliSource.Cloud.Web.xml" target="lib\net461" />
+	<file src="src/ChilliSource.Cloud.Web/bin/Release/net461/ChilliSource.Cloud.Web.pdb" target="lib\net461" />
+	<file src="src/ChilliSource.Cloud.Web/bin/Release/net462/ChilliSource.Cloud.Web.dll" target="lib\net462" />
+	<file src="src/ChilliSource.Cloud.Web/bin/Release/net462/ChilliSource.Cloud.Web.xml" target="lib\net462" />
+	<file src="src/ChilliSource.Cloud.Web/bin/Release/net462/ChilliSource.Cloud.Web.pdb" target="lib\net462" />
+  </files>
+</package>
