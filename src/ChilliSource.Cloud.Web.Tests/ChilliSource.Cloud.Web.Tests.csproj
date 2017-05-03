@@ -13,4 +13,8 @@
     <ProjectReference Include="..\ChilliSource.Cloud.Web\ChilliSource.Cloud.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
 </Project>

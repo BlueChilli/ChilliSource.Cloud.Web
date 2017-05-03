@@ -156,7 +156,7 @@ namespace ChilliSource.Cloud.Web
             {
                 if (!VirtualPathUtility.IsAbsolute(url))
                 {
-                    url = UriExtensions.Parse(url).PathAndQuery;
+                    url = new Uri(url).PathAndQuery;
                 }
                 url = VirtualPathUtility.ToAppRelative(url);
             }
