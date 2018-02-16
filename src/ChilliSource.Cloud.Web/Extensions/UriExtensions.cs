@@ -1,6 +1,7 @@
 ﻿using ChilliSource.Core.Extensions;
 using System;
 using System.Collections.Specialized;
+using System.Web;
 
 namespace ChilliSource.Cloud.Web
 {
@@ -27,6 +28,14 @@ namespace ChilliSource.Cloud.Web
             var newQueryString = uri.ParseQuery().AddQuery(parameters).ToQueryString();
 
             return new Uri(uri.Base() + newQueryString);
+        }
+       
+        public static Uri Parse(string url)
+        {
+            if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                return new Uri(url);
+                        
+            return new Uri(GlobalWebConfiguration.Instance.BaseUrl + VirtualPathUtility.ToAbsolute(url));
         }
     }
 }
