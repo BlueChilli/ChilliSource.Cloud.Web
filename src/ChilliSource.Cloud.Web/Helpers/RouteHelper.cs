@@ -142,7 +142,7 @@ namespace ChilliSource.Cloud.Web
         /// <returns>An object that contains the values from the route definition.</returns>
         public static RouteData GetRouteDataByUrl(Uri uri)
         {
-            return GetRouteDataByUrl(uri.PathAndQuery);
+            return GetRouteDataByUrl(uri.AbsolutePath);
         }
 
         /// <summary>
