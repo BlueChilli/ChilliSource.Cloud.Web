@@ -34,8 +34,15 @@ namespace ChilliSource.Cloud.Web
         {
             if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
                 return new Uri(url);
-                        
-            return new Uri(GlobalWebConfiguration.Instance.BaseUrl + VirtualPathUtility.ToAbsolute(url));
+
+            var baseUrl = GlobalWebConfiguration.Instance.BaseUrl;
+            if (!baseUrl.EndsWith("/")) baseUrl = baseUrl + "/";
+            var baseUri = new Uri(baseUrl);
+
+            var sitename = String.Join("", baseUri.Segments).TrimEnd('/');
+            if (url.StartsWith(sitename, StringComparison.OrdinalIgnoreCase)) url = url.Remove(0, sitename.Length);
+
+            return new Uri(baseUri + VirtualPathUtility.ToAbsolute(url).TrimStart('/'));
         }
     }
 }

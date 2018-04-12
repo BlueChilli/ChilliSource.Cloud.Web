@@ -53,6 +53,11 @@ namespace ChilliSource.Cloud.Web.Tests
             url = "~/Admin/User/Users";
             result = UriExtensions.Parse(url).AbsoluteUri;
             Assert.Equal("http://www.mysite.com/Admin/User/Users", result, ignoreCase: true);
+
+            GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests";
+            url = "/tests/Admin/User/Users";
+            result = UriExtensions.Parse(url).AbsoluteUri;
+            Assert.Equal("https://localhost/tests/Admin/User/Users", result, ignoreCase: true);
         }
 
         [Fact]
