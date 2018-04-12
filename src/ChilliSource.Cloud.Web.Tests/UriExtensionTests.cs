@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Web;
+using System.Web.Hosting;
 using Xunit;
 
 namespace ChilliSource.Cloud.Web.Tests
@@ -21,6 +24,35 @@ namespace ChilliSource.Cloud.Web.Tests
             var result2 = uri2.ParseQuery();
 
             Assert.False(result2.HasKeys());
+        }
+
+        [Fact]
+        public void ParseQuery_ShouldReturnCorrect_Uri()
+        {
+            // Fake out env for VirtualPathUtility.ToAbsolute(..)
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            const string virtualDir = "/";
+            AppDomain.CurrentDomain.SetData(".appDomain", "*");
+            AppDomain.CurrentDomain.SetData(".appPath", path);
+            AppDomain.CurrentDomain.SetData(".appVPath", virtualDir);
+            AppDomain.CurrentDomain.SetData(".hostingVirtualPath", virtualDir);
+            AppDomain.CurrentDomain.SetData(".hostingInstallDir", HttpRuntime.AspInstallDirectory);
+            TextWriter tw = new StringWriter();
+            HttpWorkerRequest wr = new SimpleWorkerRequest("default.aspx", "", tw);
+            HttpContext.Current = new HttpContext(wr);
+
+            GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests";
+            var url = "/Admin/User/Users";
+            var result = UriExtensions.Parse(url).AbsoluteUri;
+            Assert.Equal("https://localhost/tests/Admin/User/Users", result, ignoreCase: true);
+
+            GlobalWebConfiguration.Instance.BaseUrl = "http://www.mysite.com";
+            result = UriExtensions.Parse(url).AbsoluteUri;
+            Assert.Equal("http://www.mysite.com/Admin/User/Users", result, ignoreCase: true);
+
+            url = "~/Admin/User/Users";
+            result = UriExtensions.Parse(url).AbsoluteUri;
+            Assert.Equal("http://www.mysite.com/Admin/User/Users", result, ignoreCase: true);
         }
 
         [Fact]
