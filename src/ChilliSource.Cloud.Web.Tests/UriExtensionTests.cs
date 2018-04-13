@@ -44,20 +44,24 @@ namespace ChilliSource.Cloud.Web.Tests
             GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests";
             var url = "/Admin/User/Users";
             var result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("https://localhost/tests/Admin/User/Users", result, ignoreCase: true);
+            Assert.Equal("https://localhost/Admin/User/Users", result);
 
             GlobalWebConfiguration.Instance.BaseUrl = "http://www.mysite.com";
             result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("http://www.mysite.com/Admin/User/Users", result, ignoreCase: true);
+            Assert.Equal("http://www.mysite.com/Admin/User/Users", result);
 
             url = "~/Admin/User/Users";
             result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("http://www.mysite.com/Admin/User/Users", result, ignoreCase: true);
+            Assert.Equal("http://www.mysite.com/Admin/User/Users", result);
 
             GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests";
+            result = UriExtensions.Parse(url).AbsoluteUri;
+            Assert.Equal("https://localhost/Tests/Admin/User/Users", result);
+
+            GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests/";
             url = "/tests/Admin/User/Users";
             result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("https://localhost/tests/Admin/User/Users", result, ignoreCase: true);
+            Assert.Equal("https://localhost/tests/Admin/User/Users", result);
         }
 
         [Fact]

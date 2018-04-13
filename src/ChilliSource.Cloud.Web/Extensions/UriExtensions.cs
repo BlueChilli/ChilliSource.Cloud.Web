@@ -29,9 +29,16 @@ namespace ChilliSource.Cloud.Web
 
             return new Uri(uri.Base() + newQueryString);
         }
-       
-        public static Uri Parse(string url)
+
+        /// <summary>
+        /// Return the full url path combining partial url with GlobalWebConfiguration.Instance.BaseUrl
+        /// </summary>
+        /// <param name="partialUrl"></param>
+        /// <returns></returns>
+        public static Uri Parse(string partialUrl)
         {
+            var url = String.Copy(partialUrl);
+
             if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
                 return new Uri(url);
 
@@ -39,10 +46,13 @@ namespace ChilliSource.Cloud.Web
             if (!baseUrl.EndsWith("/")) baseUrl = baseUrl + "/";
             var baseUri = new Uri(baseUrl);
 
-            var sitename = String.Join("", baseUri.Segments).TrimEnd('/');
-            if (url.StartsWith(sitename, StringComparison.OrdinalIgnoreCase)) url = url.Remove(0, sitename.Length);
+            if (url.StartsWith("~"))
+            {
+                var sitename = String.Join("", baseUri.Segments).TrimEnd('/');
+                url = sitename + url.Substring(1);
+            }
 
-            return new Uri(baseUri + VirtualPathUtility.ToAbsolute(url).TrimStart('/'));
+            return new Uri(baseUri, url);
         }
     }
 }
