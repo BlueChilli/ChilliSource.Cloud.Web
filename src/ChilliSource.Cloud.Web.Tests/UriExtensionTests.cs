@@ -29,18 +29,6 @@ namespace ChilliSource.Cloud.Web.Tests
         [Fact]
         public void ParseQuery_ShouldReturnCorrect_Uri()
         {
-            // Fake out env for VirtualPathUtility.ToAbsolute(..)
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            const string virtualDir = "/";
-            AppDomain.CurrentDomain.SetData(".appDomain", "*");
-            AppDomain.CurrentDomain.SetData(".appPath", path);
-            AppDomain.CurrentDomain.SetData(".appVPath", virtualDir);
-            AppDomain.CurrentDomain.SetData(".hostingVirtualPath", virtualDir);
-            AppDomain.CurrentDomain.SetData(".hostingInstallDir", HttpRuntime.AspInstallDirectory);
-            TextWriter tw = new StringWriter();
-            HttpWorkerRequest wr = new SimpleWorkerRequest("default.aspx", "", tw);
-            HttpContext.Current = new HttpContext(wr);
-
             GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests";
             var url = "/Admin/User/Users";
             var result = UriExtensions.Parse(url).AbsoluteUri;
