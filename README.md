@@ -6,11 +6,13 @@ This project is part of the ChilliSource framework developed by [BlueChilli](htt
 
 ### Summary ###
 
-ChilliSource.Cloud.Web is a collection of .NET Standard libraries containing reusable helpers, extensions, and abstractions that are shared across all ChilliSource 'Cloud' projects.
+ChilliSource.Cloud.Web is a collection of .NET Standard libraries containing reusable helpers, extensions, and abstractions that are shared across all ChilliSource 'Cloud.Web' projects.
+
+In particular this library has supporting functionality for the ChilliSource.Cloud.Web.Api and ChilliSource.Cloud.Web.Mvc projects
 
 ### Installation ###
 
-All ChilliSource.Cloud.Web libraries are available via NuGet. [Insert links here].
+All ChilliSource.Cloud.Web libraries are available via [NuGet](https://www.nuget.org/packages/ChilliSource.Cloud.Web/).
 
 ### Releases ###
 

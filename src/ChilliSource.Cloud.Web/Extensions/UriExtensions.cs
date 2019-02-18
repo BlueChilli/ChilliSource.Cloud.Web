@@ -1,109 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ChilliSource.Core.Extensions;
+using System;
+using System.Collections.Specialized;
 using System.Web;
 
 namespace ChilliSource.Cloud.Web
 {
-    /// <summary>
-    /// Extension methods for System.Uri.
-    /// </summary>
     public static class UriExtensions
     {
         /// <summary>
-        /// Gets the absolute URI with "http" protocol.
+        /// Parse the query string portion of an Uri into a NameValueCollection
         /// </summary>
-        /// <param name="uri">A System.Uri.</param>
-        /// <returns>A System.String containing the entire URI.</returns>
-        public static string ToLink(this Uri uri)
+        /// <param name="uri">this</param>
+        /// <returns>NameValueCollection containing query parameters</returns>
+        public static NameValueCollection ParseQuery(this Uri uri)
         {
-            return uri.AbsoluteUri.Replace("https:", "").Replace("http:", "");
+            return uri.Query.ParseQueryString();
         }
 
         /// <summary>
-        /// Gets the host component of the specified System.Uri, without "www.".
+        /// Add an object to the query string of an Uri
         /// </summary>
-        /// <param name="uri">A System.Uri.</param>
-        /// <returns>The host component of the URI.</returns>
-        public static string FriendlyName(this Uri uri)
-        {
-            if (uri.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
-            {
-                return uri.Host.Substring(4);
-            }
-            return uri.Host;
-        }
-
-        /// <summary>
-        /// Gets the root of the specified System.Uri.
-        /// </summary>
-        /// <param name="uri">A System.Uri.</param>
-        /// <returns>The root component of the URI.</returns>
-        public static string Root(this Uri uri)
-        {
-            return uri.AbsoluteUri.Substring(0, uri.AbsoluteUri.Length - uri.AbsolutePath.Length);
-        }
-
-        /// <summary>
-        /// Converts System.Uri to URI string with query string parameters and appends and empty query string parameter.
-        /// </summary>
-        /// <param name="uri">A System.Uri.</param>
-        /// <param name="appendAsEmptyQuery">The key for empty query string parameter.</param>
-        /// <returns>A URI string with query string parameters and appends and empty query string parameter.</returns>
-        public static string ToString(this Uri uri, string appendAsEmptyQuery)
-        {
-            var queryString = HttpUtility.ParseQueryString(uri.Query);
-            queryString.Remove(appendAsEmptyQuery); //if (queryString.AllKeys.Contains(appendAsEmptyQuery)) 
-            return String.Format("{0}?{1}{2}{3}=", uri.AbsolutePath, queryString.ToString(), queryString.Count > 0 ? "&" : "", appendAsEmptyQuery);
-        }
-
-        /// <summary>
-        /// Adds object property name and value pairs as query string parameters to specified Syste.Uri.
-        /// </summary>
-        /// <param name="uri">A System.Uri.</param>
-        /// <param name="parameters">The specified object.</param>
-        /// <returns>A System.Uri with query string parameters from the specified object properties.</returns>
+        /// <param name="uri"></param>
+        /// <param name="parameters">Object containing key/value pairs to add. Each value must be able to be represented as a string</param>
+        /// <returns>Uri with objects properties/values merged in</returns>
         public static Uri AddQuery(this Uri uri, object parameters)
         {
-            var queryString = HttpUtility.ParseQueryString(uri.Query);
+            var newQueryString = uri.ParseQuery().AddQuery(parameters).ToQueryString();
 
-            Type t = parameters.GetType();
-            foreach (PropertyInfo property in t.GetProperties())
+            return new Uri(uri.Base() + newQueryString);
+        }
+
+        /// <summary>
+        /// Return the full url path combining partial url with GlobalWebConfiguration.Instance.BaseUrl
+        /// </summary>
+        /// <param name="partialUrl"></param>
+        /// <returns></returns>
+        public static Uri Parse(string partialUrl)
+        {
+            var url = String.Copy(partialUrl);
+
+            if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                return new Uri(url);
+
+            var baseUrl = GlobalWebConfiguration.Instance.BaseUrl;
+            if (!baseUrl.EndsWith("/")) baseUrl = baseUrl + "/";
+            var baseUri = new Uri(baseUrl);
+
+            if (url.StartsWith("~"))
             {
-                queryString[property.Name] = property.GetValue(parameters, null) == null ? "" : property.GetValue(parameters, null).ToString();
+                var sitename = String.Join("", baseUri.Segments).TrimEnd('/');
+                url = sitename + url.Substring(1);
             }
 
-            return Parse(String.Format("{0}?{1}", uri.AbsolutePath, queryString.ToString()));
-        }
-
-        /// <summary>
-        /// Converts a string of relative URL to System.Uri.
-        /// </summary>
-        /// <param name="url">The relative URL string.</param>
-        /// <param name="current">Current HTTP context.</param>
-        /// <returns>A System.Uri.</returns>
-        public static Uri Parse(string url, HttpContext current = null)
-        {
-            if (current == null) current = HttpContext.Current;
-            if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) return new Uri(url);
-            string authority = current == null ? "http://" + Dns.GetHostName() : current.Request.Url.GetLeftPart(UriPartial.Authority);
-            return new Uri(authority + VirtualPathUtility.ToAbsolute(url));
-        }
-
-        /// <summary>
-        /// Converts a string of relative URL to System.Uri and adds object property name and value pairs as query string parameters.
-        /// </summary>
-        /// <param name="url">The relative URL string.</param>
-        /// <param name="parameters">The specified object.</param>
-        /// <returns>A System.Uri with query string parameters from the specified object properties.</returns>
-        public static Uri Parse(string url, object parameters)
-        {
-            var uri = Parse(url);
-            return uri.AddQuery(parameters);
+            return new Uri(baseUri, url);
         }
     }
 }

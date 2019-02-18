@@ -1,4 +1,5 @@
 ﻿using ChilliSource.Cloud.Core;
+using ChilliSource.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,10 +16,8 @@ namespace ChilliSource.Cloud.Web
         {
             var source = StorageCommand.CreateSourceProvider(async () =>
             {
-                string fileName = String.Format("{0}{1}", command.FileName.DefaultTo(Guid.NewGuid().ToShortGuid()), command.Extension.DefaultTo(Path.GetExtension(file.FileName)));
-                command.FileName = command.FileName.DefaultTo(fileName);
+                command.Extension = command.Extension.DefaultTo(Path.GetExtension(file.FileName));
                 command.ContentType = command.ContentType.DefaultTo(file.ContentType);
-
                 return await GetFileStreamAsync(file).IgnoreContext();
             }, true);
 
