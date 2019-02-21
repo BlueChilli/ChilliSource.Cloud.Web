@@ -1,4 +1,5 @@
-﻿using ChilliSource.Cloud.Core;
+﻿#if NET4_X
+using ChilliSource.Cloud.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,3 +23,4 @@ namespace ChilliSource.Cloud.Web
         }
     }
 }
+#endif
