@@ -20,11 +20,25 @@ namespace ChilliSource.Cloud.Web
 {
     public class WebMimeMapping : IMimeMapping
     {
+        IContentTypeProvider _contentTypeProvider;
+
+        public WebMimeMapping()
+            :this(new FileExtensionContentTypeProvider())
+        { }
+
+        public WebMimeMapping(IContentTypeProvider contentTypeProvider)
+        {
+            _contentTypeProvider = contentTypeProvider;
+        }
+
         public string GetMimeType(string fileName)
         {
-            string contentType = null;
-            new FileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
-            return contentType ?? "application/octet-stream";
+            string contentType;
+            if (!_contentTypeProvider.TryGetContentType(fileName, out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return contentType;
         }
     }
 }
