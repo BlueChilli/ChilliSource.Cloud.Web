@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Web;
-using System.Web.Hosting;
 using Xunit;
 
 namespace ChilliSource.Cloud.Web.Tests

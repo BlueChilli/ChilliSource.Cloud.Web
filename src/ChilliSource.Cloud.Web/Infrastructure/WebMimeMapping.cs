@@ -1,9 +1,5 @@
-﻿using ChilliSource.Cloud.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#if NET_4X
+using ChilliSource.Cloud.Core;
 using System.Web;
 
 namespace ChilliSource.Cloud.Web
@@ -16,3 +12,34 @@ namespace ChilliSource.Cloud.Web
         }
     }
 }
+#else
+using ChilliSource.Cloud.Core;
+using Microsoft.AspNetCore.StaticFiles;
+
+namespace ChilliSource.Cloud.Web
+{
+    public class WebMimeMapping : IMimeMapping
+    {
+        IContentTypeProvider _contentTypeProvider;
+
+        public WebMimeMapping()
+            :this(new FileExtensionContentTypeProvider())
+        { }
+
+        public WebMimeMapping(IContentTypeProvider contentTypeProvider)
+        {
+            _contentTypeProvider = contentTypeProvider;
+        }
+
+        public string GetMimeType(string fileName)
+        {
+            string contentType;
+            if (!_contentTypeProvider.TryGetContentType(fileName, out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return contentType;
+        }
+    }
+}
+#endif

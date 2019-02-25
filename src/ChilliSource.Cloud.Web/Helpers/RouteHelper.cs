@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET_4X
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace ChilliSource.Cloud.Web
         /// </summary>
         public static List<string> Keys = new List<string> { KeyArea, KeyController, KeyAction };
 
-        #region Current
+#region Current
         /// <summary>
         /// Gets action from current HTTP context.
         /// </summary>
@@ -133,7 +134,7 @@ namespace ChilliSource.Cloud.Web
             }
             return null;
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Returns information about the route in the collection that matches the specified values.
@@ -229,3 +230,83 @@ namespace ChilliSource.Cloud.Web
         }
     }
 }
+#else
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using Microsoft.AspNetCore.Routing;
+
+namespace ChilliSource.Cloud.Web
+{
+    /// <summary>
+    /// Contains methods for System.Web.Routing.Route.
+    /// </summary>
+    public static class RouteHelper
+    {
+        /// <summary>
+        /// Constant string for action name.
+        /// </summary>
+        public const string KeyAction = "action";
+        /// <summary>
+        /// Constant string for area name.
+        /// </summary>
+        public const string KeyArea = "area";
+        /// <summary>
+        /// Constant string for controller name.
+        /// </summary>
+        public const string KeyController = "controller";
+        /// <summary>
+        /// The list of area, controller and action names.
+        /// </summary>
+        public static List<string> Keys = new List<string> { KeyArea, KeyController, KeyAction };
+
+        #region Current      
+        /// <summary>
+        /// Gets action from the specified System.Web.Routing.RouteValueDictionary.
+        /// </summary>
+        /// <param name="routeData">A System.Web.Routing.RouteValueDictionary.</param>
+        /// <returns>A string value of action.</returns>
+        public static string CurrentAction(RouteValueDictionary routeData)
+        {
+            if (routeData.Keys.Contains(KeyAction))
+            {
+                return routeData[KeyAction].ToString();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets controller from the specified System.Web.Routing.RouteValueDictionary.
+        /// </summary>
+        /// <param name="routeData">A System.Web.Routing.RouteValueDictionary.</param>
+        /// <returns>A string value of controller.</returns>
+        public static string CurrentController(RouteValueDictionary routeData)
+        {
+            if (routeData.Keys.Contains(KeyController))
+            {
+                return routeData[KeyController].ToString();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets area from the specified System.Web.Routing.RouteValueDictionary.
+        /// </summary>
+        /// <param name="routeData">A System.Web.Routing.RouteValueDictionary.</param>
+        /// <returns>A string value of area.</returns>
+        public static string CurrentArea(RouteValueDictionary routeData)
+        {
+            if (routeData.Keys.Contains(KeyArea))
+            {
+                return routeData[KeyArea].ToString();
+            }
+            return null;
+        }
+        #endregion
+    }
+}
+#endif

@@ -1,9 +1,5 @@
 ﻿using ChilliSource.Cloud.Web.Attributes;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Web;
-using System.Web.Hosting;
 using Xunit;
 
 namespace ChilliSource.Cloud.Web.Tests

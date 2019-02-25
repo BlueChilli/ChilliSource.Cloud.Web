@@ -8,7 +8,12 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+
+#if NET_4X
 using System.Web.Routing;
+#else
+using Microsoft.AspNetCore.Routing;
+#endif
 
 namespace ChilliSource.Cloud.Web
 {
