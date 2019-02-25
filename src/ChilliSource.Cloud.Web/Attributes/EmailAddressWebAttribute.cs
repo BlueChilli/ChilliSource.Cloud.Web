@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ChilliSource.Cloud.Web.Attributes
+namespace ChilliSource.Cloud.Web
 {
     /// <summary>
     /// Validates email address properties. 

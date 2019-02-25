@@ -1,4 +1,4 @@
-﻿using ChilliSource.Cloud.Web.Attributes;
+﻿using ChilliSource.Cloud.Web;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 
