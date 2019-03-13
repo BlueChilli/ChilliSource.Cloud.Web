@@ -137,6 +137,7 @@ namespace ChilliSource.Cloud.Web
         /// </summary>
         /// <param name="dictionary">The System.Web.Routing.RouteValueDictionary.</param>
         /// <returns>Attribute string (E.g. key1="value1" key2="value2")</returns>
+        [Obsolete("Consider using ToAttributeHtmlContent instead.")]
         public static string ToAttributeString(this RouteValueDictionary dictionary)
         {
             return String.Join(" ", dictionary.Keys.Select(
