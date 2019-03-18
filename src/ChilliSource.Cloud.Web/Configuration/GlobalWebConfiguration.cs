@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ChilliSource.Cloud.Web
-{
+{ 
     public class GlobalWebConfiguration
     {
         private static readonly GlobalWebConfiguration _instance = new GlobalWebConfiguration();

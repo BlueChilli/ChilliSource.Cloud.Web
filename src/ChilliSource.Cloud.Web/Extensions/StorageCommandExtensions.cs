@@ -20,23 +20,19 @@ namespace ChilliSource.Cloud.Web
     {
 #if NET_4X
         public static StorageCommand SetHttpPostedFileSource(this StorageCommand command, HttpPostedFileBase file)
-#else
-        public static StorageCommand SetHttpPostedFileSource(this StorageCommand command, IFormFile file)
-#endif        
         {
-            var source = StorageCommand.CreateSourceProvider(async () =>
+            var source = StorageCommand.CreateSourceProvider(async (cancellationToken) =>
             {
                 command.Extension = command.Extension.DefaultTo(Path.GetExtension(file.FileName));
                 command.ContentType = command.ContentType.DefaultTo(file.ContentType);
-                return await GetFileStreamAsync(file).IgnoreContext();
+                return await GetFileStreamAsync(file, cancellationToken).IgnoreContext();
             }, true);
 
             return command.SetSourceProvider(source);
         }
 
-#if NET_4X
-        private static async Task<MemoryStream> GetFileStreamAsync(HttpPostedFileBase file)
-         {
+        private static async Task<MemoryStream> GetFileStreamAsync(HttpPostedFileBase file, CancellationToken cancellationToken)
+        {
             int? fileLength = null;
             try
             {
@@ -52,7 +48,19 @@ namespace ChilliSource.Cloud.Web
             return memStream;
         }
 #else
-        private static async Task<MemoryStream> GetFileStreamAsync(IFormFile file)
+        public static StorageCommand SetHttpPostedFileSource(this StorageCommand command, IFormFile file)
+        {
+            var source = StorageCommand.CreateSourceProvider(async (cancellationToken) =>
+            {
+                command.Extension = command.Extension.DefaultTo(Path.GetExtension(file.FileName));
+                command.ContentType = command.ContentType.DefaultTo(file.ContentType);
+                return await GetFileStreamAsync(file, cancellationToken).IgnoreContext();
+            }, true);
+
+            return command.SetSourceProvider(source);
+        }
+
+        private static async Task<MemoryStream> GetFileStreamAsync(IFormFile file, CancellationToken cancellationToken)
         {
             long? fileLength = null;
             try
@@ -62,7 +70,7 @@ namespace ChilliSource.Cloud.Web
             catch {/* noop */ }
 
             var memStream = fileLength == null ? new MemoryStream() : new MemoryStream((int)fileLength.Value);
-            await file.CopyToAsync(memStream);
+            await file.CopyToAsync(memStream, cancellationToken);
             memStream.Position = 0;
             return memStream;
         }
