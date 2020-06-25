@@ -17,14 +17,14 @@ namespace ChilliSource.Cloud.Web
 
         public override bool IsValid(object value)
         {
-            var s = value as string;
-            if (String.IsNullOrEmpty(s)) return false;
-
+            if (value == null) return true;
             if (base.IsValid(value))
             {
                 var emailAddressAttribute = new EmailAddressAttribute();
                 if (emailAddressAttribute.IsValid(value))
                 {
+                    var s = value as string;
+                    if (String.IsNullOrEmpty(s)) return false;
                     return s.IsValidEmailAddress();
                 }
             }
