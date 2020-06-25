@@ -1,11 +1,12 @@
-﻿using System;
+﻿#if NET_4X
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ChilliSource.Cloud.Web
-{
+{ 
     public class GlobalWebConfiguration
     {
         private static readonly GlobalWebConfiguration _instance = new GlobalWebConfiguration();
@@ -25,3 +26,4 @@ namespace ChilliSource.Cloud.Web
         }
     }
 }
+#endif

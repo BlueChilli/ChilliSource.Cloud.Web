@@ -1,4 +1,5 @@
 ﻿using ChilliSource.Core.Extensions;
+using Microsoft.AspNetCore.Http.Extensions;
 using System;
 using System.Collections.Specialized;
 using System.Web;
@@ -30,14 +31,15 @@ namespace ChilliSource.Cloud.Web
             return new Uri(uri.Base() + newQueryString);
         }
 
+#if NET_4X
         /// <summary>
         /// Return the full url path combining partial url with GlobalWebConfiguration.Instance.BaseUrl
         /// </summary>
         /// <param name="partialUrl"></param>
         /// <returns></returns>
         public static Uri Parse(string partialUrl)
-        {
-            var url = String.Copy(partialUrl);
+        {            
+            var url = partialUrl;
 
             if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
                 return new Uri(url);
@@ -54,5 +56,9 @@ namespace ChilliSource.Cloud.Web
 
             return new Uri(baseUri, url);
         }
+#else
+        //Won't be migrated.
+        //Use ChilliSource.Cloud.Web.MVC.UrlHelperExtensions.ParseUri instead
+#endif
     }
 }

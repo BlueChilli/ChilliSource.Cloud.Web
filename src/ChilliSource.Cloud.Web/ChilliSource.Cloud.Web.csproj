@@ -16,15 +16,8 @@
     <RepositoryUrl>https://github.com/BlueChilli/ChilliSource.Cloud.Web</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/BlueChilli/ChilliSource.Cloud.Web/blob/master/LICENSE</PackageLicenseUrl>
     <Authors>BlueChilli Technology</Authors>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
-    <DocumentationFile>bin\Release\net461\ChilliSource.Cloud.Web.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
-    <DocumentationFile>bin\Release\net462\ChilliSource.Cloud.Web.xml</DocumentationFile>
-  </PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>  
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net461'">
     <DefineConstants>$(DefineConstants);NET_4X</DefineConstants>
@@ -40,11 +33,11 @@
 
   <ItemGroup>
     <Compile Condition="'$(TargetFramework)'!='netstandard2.0'" Include="..\CommonAssemblyInfo.cs" Link="Properties\CommonAssemblyInfo.cs" />
-    <PackageReference Include="ChilliSource.Cloud.Core" Version="2.0.0-alpha0061" />        
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
 
-    <PackageReference Condition="'$(TargetFramework)'=='netstandard2.0'" Include="ChilliSource.Cloud.Core" Version="2.0.0-alpha0061" />
+    <PackageReference Include="ChilliSource.Cloud.Core" Version="2.0.0-alpha0064" />
+
     <PackageReference Condition="'$(TargetFramework)'=='netstandard2.0'" Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Condition="'$(TargetFramework)'=='netstandard2.0'" Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
   </ItemGroup>
