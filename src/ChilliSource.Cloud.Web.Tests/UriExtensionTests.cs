@@ -24,32 +24,6 @@ namespace ChilliSource.Cloud.Web.Tests
         }
 
         [Fact]
-        public void ParseQuery_ShouldReturnCorrect_Uri()
-        {
-            GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests";
-            var url = "/Admin/User/Users";
-            var result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("https://localhost/Admin/User/Users", result);
-
-            GlobalWebConfiguration.Instance.BaseUrl = "http://www.mysite.com";
-            result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("http://www.mysite.com/Admin/User/Users", result);
-
-            url = "~/Admin/User/Users";
-            result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("http://www.mysite.com/Admin/User/Users", result);
-
-            GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests";
-            result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("https://localhost/Tests/Admin/User/Users", result);
-
-            GlobalWebConfiguration.Instance.BaseUrl = "https://localhost/Tests/";
-            url = "/tests/Admin/User/Users";
-            result = UriExtensions.Parse(url).AbsoluteUri;
-            Assert.Equal("https://localhost/tests/Admin/User/Users", result);
-        }
-
-        [Fact]
         public void AddQuery_ShouldAddQuery_AndReturnNewUri()
         {
             var uri = new Uri("https://www.mysite.com/something/1?A=1&A=2&B=up&C=down");

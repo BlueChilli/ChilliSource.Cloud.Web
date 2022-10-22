@@ -40,6 +40,22 @@ namespace ChilliSource.Cloud.Web
             }
             return contentType;
         }
+
+        public string GetExtension(string mimeType)
+        {
+            if (mimeType == "image/jpeg") return ".jpg";
+
+            if (_contentTypeProvider is FileExtensionContentTypeProvider)
+            {
+                var provider = _contentTypeProvider as FileExtensionContentTypeProvider;
+
+                foreach(var item in provider.Mappings)
+                {
+                    if (item.Value == mimeType) return item.Key;
+                }
+            }
+            return ".bin";
+        }
     }
 }
 #endif
