@@ -17,6 +17,8 @@ namespace ChilliSource.Cloud.Web.Tests
         [InlineData("joe@example..com.au", false)]
         [InlineData("joe..13@example.com", false)]
         [InlineData("111111111111111111", false)]
+        [InlineData("'joe@example.com.au'", false)]
+        [InlineData("\"joe@example.com.au\"", false)]
 
         public void EmailAddressWebAttribute_ShouldBeValidatedCorrectly_WhenEmailAddressIsGiven(string emailaddress, bool shouldBeCorrect)
         {
@@ -34,6 +36,8 @@ namespace ChilliSource.Cloud.Web.Tests
         [Theory]
         [InlineData("joe@example.com.")]
         [InlineData("joe@example..com.au")]
+        [InlineData("'joe@example.com.au'")]
+        [InlineData("\"joe@example.com.au\"")]
         public void EmailAddressWebAttribute_ShouldBeValidatedIncorrectly_WhenEdgeCaseEmailAddressIsGiven(string emailaddress)
         {
             var emailAddressAttribute = new EmailAddressAttribute();
