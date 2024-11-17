@@ -24,8 +24,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="ChilliSource.Cloud.Core" Version="2.0.0-alpha0163" />
-		<PackageReference Include="ChilliSource.Core.Extensions" Version="2.0.4-alpha0019" />
+		<PackageReference Include="ChilliSource.Cloud.Core" Version="2.0.0-alpha0166" />
 	</ItemGroup>
 
 </Project>
