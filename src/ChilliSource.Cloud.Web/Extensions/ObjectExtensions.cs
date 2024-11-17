@@ -1,19 +1,6 @@
-﻿using ChilliSource.Cloud.Core;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
-
-#if NET_4X
-using System.Web.Routing;
-#else
+﻿using ChilliSource.Core.Extensions;
 using Microsoft.AspNetCore.Routing;
-#endif
+using System.Collections.Generic;
 
 namespace ChilliSource.Cloud.Web
 {
