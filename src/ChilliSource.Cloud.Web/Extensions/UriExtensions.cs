@@ -31,34 +31,26 @@ namespace ChilliSource.Cloud.Web
             return new Uri(uri.Base() + newQueryString);
         }
 
-#if NET_4X
         /// <summary>
-        /// Return the full url path combining partial url with GlobalWebConfiguration.Instance.BaseUrl
+        /// Add an object to the query string of an Uri. Main differnce to AddQuery is that of the name of the parameter is 'id' , it will be added to the route parameters instead of the query string.
         /// </summary>
-        /// <param name="partialUrl"></param>
-        /// <returns></returns>
-        public static Uri Parse(string partialUrl)
-        {            
-            var url = partialUrl;
+        /// <param name="uri"></param>
+        /// <param name="parameters">Object containing key/value pairs to add. Each value must be able to be represented as a string</param>
+        /// <returns>Uri with objects properties/values merged in</returns>
+        public static Uri AddRouteQuery(this Uri uri, object parameters)
+        {
+            var data = uri.ParseQuery().AddQuery(parameters);
 
-            if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
-                return new Uri(url);
-
-            var baseUrl = GlobalWebConfiguration.Instance.BaseUrl;
-            if (!baseUrl.EndsWith("/")) baseUrl = baseUrl + "/";
-            var baseUri = new Uri(baseUrl);
-
-            if (url.StartsWith("~"))
+            if (data["id"] is not null)
             {
-                var sitename = String.Join("", baseUri.Segments).TrimEnd('/');
-                url = sitename + url.Substring(1);
+                uri = new Uri(uri.GetLeftPart(UriPartial.Path) + "/" + data["id"]);
+                data.Remove("id");
             }
 
-            return new Uri(baseUri, url);
+            var newQueryString = data.ToQueryString();
+
+            return new Uri(uri.Base() + newQueryString);
         }
-#else
-        //Won't be migrated.
-        //Use ChilliSource.Cloud.Web.MVC.UrlHelperExtensions.ParseUri instead
-#endif
+
     }
 }
