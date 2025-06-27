@@ -62,6 +62,7 @@ public class UriExtensionTestData : TheoryData<string, object, string>
 {
     public UriExtensionTestData()
     {
+        Add("https://www.mysite.com/something", null, "https://www.mysite.com/something");
         Add("https://www.mysite.com/something/1?A=1&A=2&B=up&C=down", new { A = 3, D = "straight" }, "https://www.mysite.com/something/1?A=1&A=2&A=3&B=up&C=down&D=straight");
         Add("https://www.mysite.com/something/1", new { A = 3, D = "straight", C = "" }, "https://www.mysite.com/something/1?A=3&D=straight");
         Add("https://www.mysite.com/something", new { id = 1234, A = 3, D = "straight", C = "" }, "https://www.mysite.com/something?id=1234&A=3&D=straight");
@@ -71,6 +72,7 @@ public class UriExtensionRouteTestData : TheoryData<string, object, string>
 {
     public UriExtensionRouteTestData()
     {
+        Add("https://www.mysite.com/something", null, "https://www.mysite.com/something");
         Add("https://www.mysite.com/something/1?A=1&A=2&B=up&C=down", new { A = 3, D = "straight" }, "https://www.mysite.com/something/1?A=1&A=2&A=3&B=up&C=down&D=straight");
         Add("https://www.mysite.com/something/1", new { A = 3, D = "straight", C = "" }, "https://www.mysite.com/something/1?A=3&D=straight");
         Add("https://www.mysite.com/something", new { ID = 1234, A = 3, D = "straight", C = "" }, "https://www.mysite.com/something/1234?A=3&D=straight");

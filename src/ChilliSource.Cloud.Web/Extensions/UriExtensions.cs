@@ -26,6 +26,11 @@ namespace ChilliSource.Cloud.Web
         /// <returns>Uri with objects properties/values merged in</returns>
         public static Uri AddQuery(this Uri uri, object parameters)
         {
+            if (parameters == null)
+            {
+                return uri;
+            }
+
             var newQueryString = uri.ParseQuery().AddQuery(parameters).ToQueryString();
 
             return new Uri(uri.Base() + newQueryString);
@@ -39,6 +44,11 @@ namespace ChilliSource.Cloud.Web
         /// <returns>Uri with objects properties/values merged in</returns>
         public static Uri AddRouteQuery(this Uri uri, object parameters)
         {
+            if (parameters == null)
+            {
+                return uri;
+            }
+
             var data = uri.ParseQuery().AddQuery(parameters);
 
             if (data["id"] is not null)
