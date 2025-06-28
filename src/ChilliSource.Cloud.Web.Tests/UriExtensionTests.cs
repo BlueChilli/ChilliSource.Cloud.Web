@@ -6,17 +6,6 @@ namespace ChilliSource.Cloud.Web.Tests;
 
 public class UriExtensionTests
 {
-    [Theory]
-    [InlineData("https://www.mysite.com/something/A/B", "https://www.mysite.com/something/", "/A/", "/B/")]
-    [InlineData("https://www.mysite.com/something/A/B", "https://www.mysite.com/something", "A", "B")]
-    [InlineData("https://www.mysite.com/something/A/B", "https://", "/www.mysite.com/something/", "/A/", "/B/")]
-    [InlineData("http://www.mysite.com/something/A/B", "http://", "/www.mysite.com/something/", "/A/", "/B/")]
-    public void MakeUri(params string[] parameters)
-    {
-        var expected = parameters[0];
-        Assert.Equal(expected, UriExtensions.MakeUri(parameters.Skip(1).ToArray()).ToString());
-    }
-
     [Fact]
     public void ParseQuery_ShouldQueryStringParameters_InANamedValueCollection()
     {

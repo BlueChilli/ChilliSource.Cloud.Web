@@ -9,29 +9,6 @@ namespace ChilliSource.Cloud.Web
     public static class UriExtensions
     {
         /// <summary>
-        /// Combines multiple string segments into a single URI.
-        /// </summary>
-        /// <param name="parts">An array of string segments to be combined into a URI. Each segment is trimmed of leading and trailing
-        /// slashes or backslashes.</param>
-        /// <returns>A <see cref="Uri"/> instance representing the combined URI. If no segments are provided, an empty URI is
-        /// returned.</returns>
-        public static Uri MakeUri(params string[] parts)
-        {
-            string uri = string.Empty;
-            if (parts != null && parts.Length > 0)
-            {
-                uri = parts[0] ?? string.Empty;
-                for (int i = 1; i < parts.Length; i++)
-                {
-                    var right = (parts[i] ?? string.Empty).TrimStart('/');
-                    if (uri == "http://" || uri == "https://" ) uri = $"{uri}{right}";
-                    else uri = $"{uri.TrimEnd('/')}/{right}";
-                }
-            }
-            return new Uri(uri.TrimEnd('/'));
-        }
-
-        /// <summary>
         /// Parse the query string portion of an Uri into a NameValueCollection
         /// </summary>
         /// <param name="uri">this</param>
